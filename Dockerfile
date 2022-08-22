@@ -16,6 +16,7 @@ FROM cytomine/software-python3-base:v2.2.0
 # Install Stardist and tensorflow
 RUN pip install tensorflow==2.8.0
 RUN pip install stardist==0.8.0
+RUN pip install protobuf==3.20.*
 
 #INSTALL
 RUN pip install numpy
