@@ -11,6 +11,9 @@
 # * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # * See the License for the specific language governing permissions and
 # * limitations under the License.
+FROM nvidia/cuda:11.4-base
+CMD nvidia-smi
+
 
 FROM cytomine/software-python3-base:v2.2.0
 # Install Stardist and tensorflow
