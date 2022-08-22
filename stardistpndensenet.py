@@ -71,18 +71,21 @@ def run(cyto_job, parameters):
 
     #Loading pre-trained Stardist model
     # base_path = "{}".format(os.getenv("HOME")) # Mandatory for Singularity
-    base_path = os.getcwd()
-    models_path = os.path.join(base_path,"models/")
-    print(base_path)
-    print(models_path)
+#     base_path = os.getcwd()
+#     models_path = os.path.join(base_path,"models/")
+#     print(base_path)
+#     print(models_path)
 
 
     #Stardist H&E model downloaded from https://github.com/mpicbg-csbd/stardist/issues/46
     #Stardist H&E model downloaded from https://drive.switch.ch/index.php/s/LTYaIud7w6lCyuI
-    modelsegment = StarDist2D(None, name='2D_versatile_HE', basedir=models_path)   #use local model file in ~/models/2D_versatile_HE/
+#     modelsegment = StarDist2D(None, name='2D_versatile_HE', basedir=models_path)   #use local model file in ~/models/2D_versatile_HE/
+    modelsegment = StarDist2D(None, name='2D_versatile_HE', basedir='/models/')
 
     # ----- load network ----
-    modelname = os.path.join(models_path,"3333nuclei_densenet_best_model_100ep.pth")
+#     modelname = os.path.join(models_path,"3333nuclei_densenet_best_model_100ep.pth")
+    modelname = "/models/3333nuclei_densenet_best_model_100ep.pth"
+    
     gpuid = 0
 
     device = torch.device(gpuid if gpuid!=-2 and torch.cuda.is_available() else 'cpu')
