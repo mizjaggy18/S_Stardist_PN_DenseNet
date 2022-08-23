@@ -11,7 +11,8 @@
 # * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # * See the License for the specific language governing permissions and
 # * limitations under the License.
-FROM nvidia/cuda:11.4-base
+
+# FROM nvidia/cuda:11.4-base
 FROM nvidia/cuda:11.4.0-base-ubuntu18.04
 RUN apt update
 # CMD nvidia-smi
