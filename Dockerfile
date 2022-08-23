@@ -12,12 +12,14 @@
 # * See the License for the specific language governing permissions and
 # * limitations under the License.
 FROM nvidia/cuda:11.4-base
-CMD nvidia-smi
+FROM nvidia/cuda:11.4.0-base-ubuntu18.04
+RUN apt update
+# CMD nvidia-smi
 
 
 FROM cytomine/software-python3-base:v2.2.0
 # Install Stardist and tensorflow
-RUN pip install tensorflow==2.8.0
+RUN pip install tensorflow-gpu==2.8.0
 RUN pip install stardist==0.8.0
 RUN pip install protobuf==3.20.*
 
