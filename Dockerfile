@@ -14,8 +14,11 @@
 
 # FROM nvidia/cuda:11.4-base
 FROM nvidia/cuda:11.4.0-base-ubuntu18.04
-RUN apt update
-# CMD nvidia-smi
+CMD nvidia-smi
+RUN apt-get update && apt-get install --no-install-recommends --no-install-suggests -y curl
+RUN apt-get install unzip
+RUN apt-get -y install python3
+RUN apt-get -y install python3-pip
 
 
 FROM cytomine/software-python3-base:v2.2.0
