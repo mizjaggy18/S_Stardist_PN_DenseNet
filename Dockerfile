@@ -13,6 +13,7 @@
 # * limitations under the License.
 
 # FROM nvidia/cuda:11.4-base
+RUN -it --gpus all nvidia/cuda:11.4.0-base-ubuntu18.04 nvidia-smi
 FROM nvidia/cuda:11.4.0-base-ubuntu18.04
 CMD nvidia-smi
 RUN apt-get update && apt-get install --no-install-recommends --no-install-suggests -y curl
