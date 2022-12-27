@@ -14,26 +14,28 @@
 
 # FROM nvidia/cuda:11.4-base
 
-FROM nvidia/cuda:11.4.0-base-ubuntu18.04
+# FROM nvidia/cuda:11.4.0-base-ubuntu18.04
+FROM nvidia/cuda:11.4.0-cudnn8-devel-ubuntu18.04
 CMD nvidia-smi
+
 RUN apt-get update && apt-get install --no-install-recommends --no-install-suggests -y curl
 RUN apt-get install unzip
 RUN apt-get -y install python3
 RUN apt-get -y install python3-pip
-RUN --gpus all nvidia/cuda:11.4.0-base-ubuntu18.04 nvidia-smi
+# RUN --gpus all nvidia/cuda:11.4.0-base-ubuntu18.04 nvidia-smi
 
 FROM cytomine/software-python3-base:v2.2.0
 # Install Stardist and tensorflow
-RUN pip install tensorflow-gpu==2.8.0
-RUN pip install stardist==0.8.0
-RUN pip install protobuf==3.20.*
+RUN pip3 install tensorflow-gpu==2.8.0
+RUN pip3 install stardist==0.8.0
+RUN pip3 install protobuf==3.20.*
 
 #INSTALL
-RUN pip install numpy
-RUN pip install shapely
-RUN pip install tifffile
-RUN pip install torch
-RUN pip install torchvision
+RUN pip3 install numpy
+RUN pip3 install shapely
+RUN pip3 install tifffile
+RUN pip3 install torch
+RUN pip3 install torchvision
 
 
 RUN mkdir -p /models 
