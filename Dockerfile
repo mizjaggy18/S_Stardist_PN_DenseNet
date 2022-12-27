@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
 RUN apt-get install unzip
 RUN apt-get -y install python3
 RUN apt-get -y install python3-pip
-
+RUN --gpus all nvidia/cuda:11.4.0-base-ubuntu18.04 nvidia-smi
 
 FROM cytomine/software-python3-base:v2.2.0
 # Install Stardist and tensorflow
@@ -35,7 +35,6 @@ RUN pip install tifffile
 RUN pip install torch
 RUN pip install torchvision
 
-RUN --gpus all nvidia/cuda:11.4.0-base-ubuntu18.04 nvidia-smi
 
 RUN mkdir -p /models 
 ADD 3333nuclei_densenet_best_model_100ep.pth /models/3333nuclei_densenet_best_model_100ep.pth
