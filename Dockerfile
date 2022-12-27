@@ -35,7 +35,7 @@ RUN pip install tifffile
 RUN pip install torch
 RUN pip install torchvision
 
-RUN -it --gpus all nvidia/cuda:11.4.0-base-ubuntu18.04 nvidia-smi
+RUN --gpus all nvidia/cuda:11.4.0-base-ubuntu18.04 nvidia-smi
 
 RUN mkdir -p /models 
 ADD 3333nuclei_densenet_best_model_100ep.pth /models/3333nuclei_densenet_best_model_100ep.pth
