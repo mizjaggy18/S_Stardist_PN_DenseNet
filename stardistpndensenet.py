@@ -284,12 +284,12 @@ def run(cyto_job, parameters):
                 cc=np.zeros((blocksize,blocksize))
 
                 zz=[*range(1,blocksize+1)]
-                for i in zz:
-                     rr[i-1,:]=zz
+                for j in zz:
+                     rr[j-1,:]=zz
 
                 zz=[*range(1,blocksize+1)]
-                for i in zz:
-                    cc[:,i-1]=zz
+                for j in zz:
+                    cc[:,j-1]=zz
  
                 cc1=np.asarray(cc)-16.5
                 rr1=np.asarray(rr)-16.5
@@ -424,10 +424,10 @@ def run(cyto_job, parameters):
             # ## --------- WRITE Hue and Value values into CSV and annotation Property -----------
             if write_hv==1:
                 job.update(status=Job.RUNNING, progress=80, statusComment="Writing classification results on CSV...")
-                for i, annotation in enumerate(cytomine_annotations):
-                    f.write("{};{};{};{};{};{};{};{};{};{};{}\n".format(annotation.id,annotation.image,annotation.project,job.id,annotation.term,annotation.user,annotation.area,annotation.perimeter,str(hue_all[i]),str(val_all[i]),annotation.location))
-                    Property(Annotation().fetch(annotation.id), key='Hue', value=str(hue_all[i])).save()
-                    Property(Annotation().fetch(annotation.id), key='Val', value=str(val_all[i])).save()
+                for j, annotation in enumerate(cytomine_annotations):
+                    f.write("{};{};{};{};{};{};{};{};{};{};{}\n".format(annotation.id,annotation.image,annotation.project,job.id,annotation.term,annotation.user,annotation.area,annotation.perimeter,str(hue_all[j]),str(val_all[j]),annotation.location))
+                    Property(Annotation().fetch(annotation.id), key='Hue', value=str(hue_all[j])).save()
+                    Property(Annotation().fetch(annotation.id), key='Val', value=str(val_all[j])).save()
                     Property(Annotation().fetch(annotation.id), key='ID', value=str(annotation.id)).save()
             ##---------------------------------------------------------------------------
 
