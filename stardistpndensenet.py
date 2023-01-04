@@ -62,6 +62,7 @@ def run(cyto_job, parameters):
     project = cyto_job.project
     threshold_set=parameters.cytomine_th_set
     roi_type=parameters.cytomine_roi_type
+    write_hv=parameters.cytomine_write_hv
 
     terms = TermCollection().fetch_with_filter("project", parameters.cytomine_id_project)
     job.update(status=Job.RUNNING, progress=1, statusComment="Terms collected...")
@@ -421,12 +422,13 @@ def run(cyto_job, parameters):
             end_prediction_time=time.time()
 
             # ## --------- WRITE Hue and Value values into CSV and annotation Property -----------
-            # job.update(status=Job.RUNNING, progress=80, statusComment="Writing classification results on CSV...")
-            # for i, annotation in enumerate(cytomine_annotations):
-            #     f.write("{};{};{};{};{};{};{};{};{};{};{}\n".format(annotation.id,annotation.image,annotation.project,job.id,annotation.term,annotation.user,annotation.area,annotation.perimeter,str(hue_all[i]),str(val_all[i]),annotation.location))
-            #     Property(Annotation().fetch(annotation.id), key='Hue', value=str(hue_all[i])).save()
-            #     Property(Annotation().fetch(annotation.id), key='Val', value=str(val_all[i])).save()
-            #     Property(Annotation().fetch(annotation.id), key='ID', value=str(annotation.id)).save()
+            if write_hv:
+                job.update(status=Job.RUNNING, progress=80, statusComment="Writing classification results on CSV...")
+                for i, annotation in enumerate(cytomine_annotations):
+                    f.write("{};{};{};{};{};{};{};{};{};{};{}\n".format(annotation.id,annotation.image,annotation.project,job.id,annotation.term,annotation.user,annotation.area,annotation.perimeter,str(hue_all[i]),str(val_all[i]),annotation.location))
+                    Property(Annotation().fetch(annotation.id), key='Hue', value=str(hue_all[i])).save()
+                    Property(Annotation().fetch(annotation.id), key='Val', value=str(val_all[i])).save()
+                    Property(Annotation().fetch(annotation.id), key='ID', value=str(annotation.id)).save()
             ##---------------------------------------------------------------------------
 
             start_scoring_time=time.time()
