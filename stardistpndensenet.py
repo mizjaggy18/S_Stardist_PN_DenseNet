@@ -425,10 +425,11 @@ def run(cyto_job, parameters):
             if write_hv==1:
                 job.update(status=Job.RUNNING, progress=80, statusComment="Writing classification results on CSV...")
                 for j, annotation in enumerate(cytomine_annotations):
-                    f.write("{};{};{};{};{};{};{};{};{};{};{}\n".format(annotation.id,annotation.image,annotation.project,job.id,annotation.term,annotation.user,annotation.area,annotation.perimeter,str(hue_all[j]),str(val_all[j]),annotation.location))
-                    Property(Annotation().fetch(annotation.id), key='Hue', value=str(hue_all[j])).save()
-                    Property(Annotation().fetch(annotation.id), key='Val', value=str(val_all[j])).save()
-                    Property(Annotation().fetch(annotation.id), key='ID', value=str(annotation.id)).save()
+                    if annotation.term!=cytomine_id_cell_term:
+                        f.write("{};{};{};{};{};{};{};{};{};{};{}\n".format(annotation.id,annotation.image,annotation.project,job.id,annotation.term,annotation.user,annotation.area,annotation.perimeter,str(hue_all[j]),str(val_all[j]),annotation.location))
+                        Property(Annotation().fetch(annotation.id), key='Hue', value=str(hue_all[j])).save()
+                        Property(Annotation().fetch(annotation.id), key='Val', value=str(val_all[j])).save()
+                        Property(Annotation().fetch(annotation.id), key='ID', value=str(annotation.id)).save()
             ##---------------------------------------------------------------------------
 
             start_scoring_time=time.time()
