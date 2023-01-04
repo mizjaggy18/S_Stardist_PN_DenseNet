@@ -422,7 +422,7 @@ def run(cyto_job, parameters):
             end_prediction_time=time.time()
 
             # ## --------- WRITE Hue and Value values into CSV and annotation Property -----------
-            if write_hv:
+            if write_hv==1:
                 job.update(status=Job.RUNNING, progress=80, statusComment="Writing classification results on CSV...")
                 for i, annotation in enumerate(cytomine_annotations):
                     f.write("{};{};{};{};{};{};{};{};{};{};{}\n".format(annotation.id,annotation.image,annotation.project,job.id,annotation.term,annotation.user,annotation.area,annotation.perimeter,str(hue_all[i]),str(val_all[i]),annotation.location))
