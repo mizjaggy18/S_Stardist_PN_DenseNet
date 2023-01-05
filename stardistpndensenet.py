@@ -348,6 +348,9 @@ def run(cyto_job, parameters):
                         else:
                             cellclass=2
                     #----------------------------------------------------------------
+                elif threshold_set==3:    
+                    print("Th set 3")
+                    #----------------------------------------------------------------
 
                 if cellclass==1: #negative
 
@@ -425,7 +428,7 @@ def run(cyto_job, parameters):
             if write_hv==1:
                 job.update(status=Job.RUNNING, progress=80, statusComment="Writing classification results on CSV...")
                 for j, annotation in enumerate(cytomine_annotations):
-                    if annotation.term!=cytomine_id_cell_term:
+                    if annotation.term!=parameters.cytomine_id_cell_term:
                         f.write("{};{};{};{};{};{};{};{};{};{};{}\n".format(annotation.id,annotation.image,annotation.project,job.id,annotation.term,annotation.user,annotation.area,annotation.perimeter,str(hue_all[j]),str(val_all[j]),annotation.location))
                         Property(Annotation().fetch(annotation.id), key='Hue', value=str(hue_all[j])).save()
                         Property(Annotation().fetch(annotation.id), key='Val', value=str(val_all[j])).save()
