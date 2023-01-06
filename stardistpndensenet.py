@@ -86,7 +86,7 @@ def run(cyto_job, parameters):
 
     # ----- load network ----
     if modeltype==1: #3k
-        modelname = "/models/3333nuclei_densenet21_best_model_100ep.pth"
+        modelname = "/models/3333nuclei_densenet_best_model_100ep.pth"
     elif modeltype==2: #22k
         modelname = "/models/22k_nuclei_densenet21_best_model_100ep.pth"
 
