@@ -63,6 +63,7 @@ def run(cyto_job, parameters):
     threshold_set=parameters.cytomine_th_set
     roi_type=parameters.cytomine_roi_type
     write_hv=parameters.cytomine_write_hv
+    modeltype=parameters.cytomine_model
 
     terms = TermCollection().fetch_with_filter("project", parameters.cytomine_id_project)
     job.update(status=Job.RUNNING, progress=1, statusComment="Terms collected...")
@@ -84,8 +85,11 @@ def run(cyto_job, parameters):
     modelsegment = StarDist2D(None, name='2D_versatile_HE', basedir='/models/')
 
     # ----- load network ----
-#     modelname = os.path.join(models_path,"3333nuclei_densenet_best_model_100ep.pth")
-    modelname = "/models/3333nuclei_densenet_best_model_100ep.pth"
+    if modeltype==1: #3k
+        modelname = "/models/3333nuclei_densenet21_best_model_100ep.pth"
+    elif modeltype==2: #22k
+        modelname = "/models/22k_nuclei_densenet21_best_model_100ep.pth"
+
     
     gpuid = 0
 
