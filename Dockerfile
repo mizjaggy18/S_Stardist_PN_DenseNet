@@ -40,7 +40,9 @@ RUN pip3 install torchvision
 
 RUN mkdir -p /models 
 ADD 3333nuclei_densenet_best_model_100ep.pth /models/3333nuclei_densenet_best_model_100ep.pth
+ADD 22k_nuclei_densenet21_best_model_100ep.pth /models/22k_nuclei_densenet21_best_model_100ep.pth
 RUN chmod 444 /models/3333nuclei_densenet_best_model_100ep.pth
+RUN chmod 444 /models/22k_nuclei_densenet21_best_model_100ep.pth
 
 RUN cd /models && \
     mkdir -p 2D_versatile_HE
