@@ -353,7 +353,7 @@ def run(cyto_job, parameters):
                             cellclass=2
                     #----------------------------------------------------------------
                 elif threshold_set==3:    
-                    print("Th set 3")
+                    print("Th set 3 not yet defined.")
                     #----------------------------------------------------------------
 
                 if cellclass==1: #negative
