@@ -277,51 +277,37 @@ def run(cyto_job, parameters):
                
                 #Start PN classification
                 J = cv2.imread(roi_png_filename,cv2.IMREAD_UNCHANGED)
-                J = cv2.cvtColor(J, cv2.COLOR_BGRA2RGBA) 
                 [r, c, h]=J.shape
+                coord=[c//2,r//2]
+                y=(coord[1])
+                x=(coord[0])
 
                 if r < c:
                     blocksize=r
                 else:
                     blocksize=c
+                    
+                if (blocksize % 2) != 0:
+                    blocksize=blocksize-1
+                    
                 rr=np.zeros((blocksize,blocksize))
                 cc=np.zeros((blocksize,blocksize))
 
                 zz=[*range(1,blocksize+1)]
-                for j in zz:
-                     rr[j-1,:]=zz
-
-                zz=[*range(1,blocksize+1)]
-                for j in zz:
-                    cc[:,j-1]=zz
+                rr = np.tile(zz, (blocksize, 1))
+                cc = np.tile(zz, (blocksize, 1)).T
+                
+                halfblocksize=(blocksize//2)
  
-                cc1=np.asarray(cc)-16.5
-                rr1=np.asarray(rr)-16.5
-                cc2=np.asarray(cc1)**2
-                rr2=np.asarray(rr1)**2
-                rrcc=np.asarray(cc2)+np.asarray(rr2)
-
-                weight=np.sqrt(rrcc)
-                weight2=1./weight
-                coord=[c/2,r/2]
-                halfblocksize=blocksize/2
-
-                y=round(coord[1])
-                x=round(coord[0])
-
+                weight2 = 1.0 / np.sqrt((cc - halfblocksize + 0.5)**2 + (rr - halfblocksize + 0.5)**2)
+                
                 # Convert the RGB image to HSV
-                Jalpha=J[:,:,3]
-                Jalphaloc=Jalpha/255
-                Jrgb = cv2.cvtColor(J, cv2.COLOR_RGBA2RGB)
-                Jhsv = cv2.cvtColor(Jrgb, cv2.COLOR_RGB2HSV_FULL)
+                currentblock = J[y-halfblocksize:y+halfblocksize,x-halfblocksize:x+halfblocksize,:] #block from centroid               
+                Jhsv = cv2.cvtColor(currentblock, cv2.COLOR_BGR2HSV_FULL) 
                 Jhsv = Jhsv/255
-                Jhsv[:,:,0]=Jhsv[:,:,0]*Jalphaloc
-                Jhsv[:,:,1]=Jhsv[:,:,1]*Jalphaloc
-                Jhsv[:,:,2]=Jhsv[:,:,2]*Jalphaloc
 
-                currentblock = Jhsv[0:blocksize,0:blocksize,:]
-                currentblockH=currentblock[:,:,0]
-                currentblockV=1-currentblock[:,:,2]
+                currentblockH=Jhsv[:,:,0]
+                currentblockV=1-Jhsv[:,:,2]
                 hue=sum(sum(currentblockH*weight2))
                 val=sum(sum(currentblockV*weight2))
 #                 print("hue:", hue)
