@@ -145,6 +145,9 @@ def run(cyto_job, parameters):
         for id_image in list_imgs2:
 
             print('Current image:', id_image)
+            imageinfo=ImageInstance(id=id_image,project=parameters.cytomine_id_project)
+            imageinfo.fetch()
+            calibration_factor=imageinfo.resolution
             roi_annotations = AnnotationCollection(
                 terms=[parameters.cytomine_id_roi_term],
                 project=parameters.cytomine_id_project,
@@ -214,7 +217,7 @@ def run(cyto_job, parameters):
                             points.append(p)
 
                         annotation = Polygon(points)
-                        area=annotation.area
+                        area=annotation.area * (calibration_factor ** 2)                        
                         if area > area_th: 
                             #Append to Annotation collection 
                             cytomine_annotations.append(Annotation(location=annotation.wkt,
@@ -421,7 +424,7 @@ def run(cyto_job, parameters):
             if write_hv==1:
                 job.update(status=Job.RUNNING, progress=80, statusComment="Writing classification results on CSV...")
                 for j, annotation in enumerate(cytomine_annotations):
-                    if annotation.term!=parameters.cytomine_id_cell_term:
+                    if int(annotation.term[0]) != parameters.cytomine_id_cell_term:
                         f.write("{};{};{};{};{};{};{};{};{};{};{}\n".format(annotation.id,annotation.image,annotation.project,job.id,annotation.term,annotation.user,annotation.area,annotation.perimeter,str(hue_all[j]),str(val_all[j]),annotation.location))
                         Property(Annotation().fetch(annotation.id), key='Hue', value=str(hue_all[j])).save()
                         Property(Annotation().fetch(annotation.id), key='Val', value=str(val_all[j])).save()
