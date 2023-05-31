@@ -214,7 +214,7 @@ def run(cyto_job, parameters):
 
                         annotation = Polygon(points)
                         area=annotation.area
-                        if area > 46: 
+                        if area > 10: 
                             #Append to Annotation collection 
                             cytomine_annotations.append(Annotation(location=annotation.wkt,
                                                                    id_image=id_image,#conn.parameters.cytomine_id_image,
