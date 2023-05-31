@@ -213,12 +213,14 @@ def run(cyto_job, parameters):
                             points.append(p)
 
                         annotation = Polygon(points)
-                        #Append to Annotation collection 
-                        cytomine_annotations.append(Annotation(location=annotation.wkt,
-                                                               id_image=id_image,#conn.parameters.cytomine_id_image,
-                                                               id_project=parameters.cytomine_id_project,
-                                                               id_terms=[parameters.cytomine_id_cell_term]))
-                        print(".",end = '',flush=True)
+                        area=annotation.area
+                        if area > 46: 
+                            #Append to Annotation collection 
+                            cytomine_annotations.append(Annotation(location=annotation.wkt,
+                                                                   id_image=id_image,#conn.parameters.cytomine_id_image,
+                                                                   id_project=parameters.cytomine_id_project,
+                                                                   id_terms=[parameters.cytomine_id_cell_term]))
+                            print(".",end = '',flush=True)
 
                     #Send Annotation Collection (for this ROI) to Cytomine server in one http request
                     cytomine_annotations.save()
