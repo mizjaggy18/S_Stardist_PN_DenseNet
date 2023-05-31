@@ -64,6 +64,7 @@ def run(cyto_job, parameters):
     roi_type=parameters.cytomine_roi_type
     write_hv=parameters.cytomine_write_hv
     modeltype=parameters.cytomine_model
+    area_th=parameters.cytomine_area_th
 
     terms = TermCollection().fetch_with_filter("project", parameters.cytomine_id_project)
     job.update(status=Job.RUNNING, progress=1, statusComment="Terms collected...")
@@ -214,7 +215,7 @@ def run(cyto_job, parameters):
 
                         annotation = Polygon(points)
                         area=annotation.area
-                        if area > 10: 
+                        if area > area_th: 
                             #Append to Annotation collection 
                             cytomine_annotations.append(Annotation(location=annotation.wkt,
                                                                    id_image=id_image,#conn.parameters.cytomine_id_image,
