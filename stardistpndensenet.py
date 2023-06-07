@@ -184,11 +184,7 @@ def run(cyto_job, parameters):
                 #roi.dump(dest_pattern=os.path.join(roi_path,"{id}.png"), mask=True, alpha=True)
             
                 #Stardist works with TIFF images without alpha channel, flattening PNG alpha mask to TIFF RGB
-                if stardist_model==1:
-                    im=Image.open(roi_png_filename)
-                elif stardist_model==2:
-                    im1=Image.open(roi_png_filename)
-                    im=255 - im1[:,:,1]
+                im=Image.open(roi_png_filename)
                 
                 bg = Image.new("RGB", im.size, (255,255,255))
                 bg.paste(im,mask=im.split()[3])
@@ -204,7 +200,14 @@ def run(cyto_job, parameters):
                 #Going over ROI images in ROI directory (in our case: one ROI per directory)
                 for x in range(0,len(X)):
                     print("------------------- Processing ROI file %d: %s" %(x,roi_tif_filename))
-                    img = normalize(X[x], parameters.stardist_norm_perc_low, parameters.stardist_norm_perc_high, axis=axis_norm)
+                    if stardist_model==1:
+                        X1=X[x]
+                    elif stardist_model==2:
+                        X2=X[x]
+                        X1=255 - X2[:,:,1]
+                        
+                        
+                    img = normalize(X1, parameters.stardist_norm_perc_low, parameters.stardist_norm_perc_high, axis=axis_norm)
                     n_tiles = modelsegment._guess_n_tiles(img)
                     #Stardist model prediction with thresholds
                     labels, details = modelsegment.predict_instances(img,
