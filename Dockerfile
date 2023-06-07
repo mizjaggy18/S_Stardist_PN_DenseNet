@@ -58,9 +58,9 @@ RUN cd /models && \
 ADD 2D_versatile_fluo/config.json /models/2D_versatile_fluo/config.json
 ADD 2D_versatile_fluo/thresholds.json /models/2D_versatile_fluo/thresholds.json
 ADD 2D_versatile_fluo/weights_best.h5 /models/2D_versatile_fluo/weights_best.h5
-RUN chmod 444 /models/2D_versatile_HE/config.json
-RUN chmod 444 /models/2D_versatile_HE/thresholds.json
-RUN chmod 444 /models/2D_versatile_HE/weights_best.h5
+RUN chmod 444 /models/2D_versatile_fluo/config.json
+RUN chmod 444 /models/2D_versatile_fluo/thresholds.json
+RUN chmod 444 /models/2D_versatile_fluo/weights_best.h5
 
 #ADD FILES
 RUN mkdir -p /app
