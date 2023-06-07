@@ -65,6 +65,7 @@ def run(cyto_job, parameters):
     write_hv=parameters.cytomine_write_hv
     modeltype=parameters.cytomine_model
     area_th=parameters.cytomine_area_th
+    stardist_model=parameters.stardist_model
 
     terms = TermCollection().fetch_with_filter("project", parameters.cytomine_id_project)
     job.update(status=Job.RUNNING, progress=1, statusComment="Terms collected...")
@@ -83,7 +84,10 @@ def run(cyto_job, parameters):
     #Stardist H&E model downloaded from https://github.com/mpicbg-csbd/stardist/issues/46
     #Stardist H&E model downloaded from https://drive.switch.ch/index.php/s/LTYaIud7w6lCyuI
 #     modelsegment = StarDist2D(None, name='2D_versatile_HE', basedir=models_path)   #use local model file in ~/models/2D_versatile_HE/
-    modelsegment = StarDist2D(None, name='2D_versatile_HE', basedir='/models/')
+    if stardist_model==1:
+        modelsegment = StarDist2D(None, name='2D_versatile_HE', basedir='/models/')
+    elif stardist_model==2:
+        modelsegment = StarDist2D(None, name='2D_versatile_fluo', basedir='/models/')
 
     # ----- load network ----
     if modeltype==1: #3k
@@ -180,7 +184,12 @@ def run(cyto_job, parameters):
                 #roi.dump(dest_pattern=os.path.join(roi_path,"{id}.png"), mask=True, alpha=True)
             
                 #Stardist works with TIFF images without alpha channel, flattening PNG alpha mask to TIFF RGB
-                im=Image.open(roi_png_filename)
+                if stardist_model==1:
+                    im=Image.open(roi_png_filename)
+                elif stardist_model==2:
+                    im1=Image.open(roi_png_filename)
+                    im=255 - im1[:,:,1]
+                
                 bg = Image.new("RGB", im.size, (255,255,255))
                 bg.paste(im,mask=im.split()[3])
                 roi_tif_filename=os.path.join(roi_path+'/'+str(roi.id)+'.tif')
