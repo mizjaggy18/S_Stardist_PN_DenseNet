@@ -292,7 +292,9 @@ def run(cyto_job, parameters):
                     roi.dump(dest_pattern=roi_png_filename,mask=True)
                 elif roi_type==2: #crop
                     roi.dump(dest_pattern=roi_png_filename)
-               
+                    
+                roi.delete() #delete stardist annotation to avoid double annotations
+                
                 #Start PN classification
                 J = cv2.imread(roi_png_filename,cv2.IMREAD_UNCHANGED)
                 [r, c, h]=J.shape
@@ -403,6 +405,7 @@ def run(cyto_job, parameters):
                 
                 cytomine_annotations = AnnotationCollection()
                 annotation=roi_geometry
+                
                 cytomine_annotations.append(Annotation(location=annotation.wkt,#location=roi_geometry,
                                                        id_image=id_image,#conn.parameters.cytomine_id_image,
                                                        id_project=project.id,
