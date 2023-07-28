@@ -67,4 +67,8 @@ RUN mkdir -p /app
 ADD descriptor.json /app/descriptor.json
 ADD stardistpndensenet.py /app/stardistpndensenet.py
 
+# Set environment variables for GPU support
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+
 ENTRYPOINT ["python3", "/app/stardistpndensenet.py"]
