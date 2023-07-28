@@ -35,6 +35,7 @@ from stardist.models import StarDist2D
 from PIL import Image
 import torch
 from torchvision.models import DenseNet
+from skimage import io, color, filters
 
 # import matplotlib.pyplot as plt
 import time
@@ -204,7 +205,12 @@ def run(cyto_job, parameters):
                         if stardist_model==1:
                             X1=X[x]
                         elif stardist_model==2:
+                            #Preprocessing for PR-IHC
                             X2=X[x]
+                            blurred_image = filters.gaussian(color.rgb2gray(X2), sigma=1.0)      
+                            mask = blurred_image > 0.8  # Adjust the threshold as needed                            
+                            # Use the mask to remove the background
+                            X2[mask] = [255, 255, 255]  # Set background pixels to black (0, 0, 0)                            
                             X1=255 - X2[:,:,1]
 
 
